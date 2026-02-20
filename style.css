@@ -50,7 +50,10 @@
     color: #fff;
   }
 
-  .dia-section { margin-bottom: 40px; }
+  .dia-section {
+    margin-bottom: 40px;
+  }
+
   .dia-label {
     font-size: 18px;
     font-weight: 700;
@@ -64,6 +67,7 @@
 
   table {
     width: 100%;
+    min-width: 600px;
     border-collapse: collapse;
     table-layout: fixed;
   }
@@ -116,3 +120,46 @@
   .sub { text-align: center; color: #7070a0; font-size: 15px; margin-bottom: 24px; }
 
   .week-label { text-align: center; color: #6366f1; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+
+@media (max-width: 600px) {
+    thead { display: none; }
+
+    tr {
+        display: block;
+        background: #252538;
+        border-radius: 8px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        border-top: none;
+    }
+
+    td {
+        display: inline;
+        white-space: normal;
+        padding: 0;
+        border: none;
+        font-size: 12px;
+    }
+
+    table {
+        min-width: unset;
+    }
+
+    .dia-section {
+        overflow-x: unset;
+    }
+
+    /* Grupo e Animal na mesma linha */
+    td.grupo::before    { content: "";         }
+    td.animal::before   { content: " · ";      color: #7070a0; }
+
+    /* Dezenas e Milhares em linhas próprias */
+    td.dezenas, td.milhares {
+        display: block;
+        margin-top: 3px;
+    }
+
+    td.dezenas::before  { content: "Dezenas: ";  color: #7070a0; }
+    td.milhares::before { content: "Milhares: "; color: #7070a0; }
+    td.milhares         { font-size: 11px; white-space: nowrap;}
+}
