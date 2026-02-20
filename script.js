@@ -132,14 +132,19 @@ function generate() {
       html += `<div class="dia-label">${dia}</div>`;
       html += `<table><thead><tr><th>Grupo</th><th>Animal</th><th>Dezenas</th><th>Milhares</th></tr></thead><tbody>`;
       dayGroups.forEach((g, gi) => {
-        const dez = g.dezenas.map(d => fmt2(d)).join(' • ');
+        const dezStr = g.dezenas
+          .map(d => `<span class="dezena">${fmt2(d)}</span>`)
+          .join(' • ');
         const milSeed = (bancaSeed ^ (di * 31 + gi) * 0x6C62272E) >>> 0;
         const mils = uniqueMilhares(milSeed, g.dezenas);
-        const milStr = mils.join(' • ');
+        const milStr = mils
+          .map(m => `<span class="milhar">${m}</span>`)
+          .join(' • ');
+
         html += `<tr>
           <td class="grupo">${g.grupo}</td>
           <td class="animal">${g.animal}</td>
-          <td class="dezenas">${dez}</td>
+          <td class="dezenas">${dezStr}</td>
           <td class="milhares">${milStr}</td>
         </tr>`;
       });

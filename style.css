@@ -17,7 +17,7 @@
   .banca {
     background: #1e1e2e;
     border-radius: 12px;
-    padding: 24px 55px 24px 30px;
+    padding: 24px 45px 24px 30px;
     margin-bottom: 32px;
     margin-top: 40px;
     margin-inline: 15px;
@@ -93,8 +93,40 @@
 
   .grupo { color: #a0a0c0; font-weight: 600; }
   .animal { color: #fff; }
-  .dezenas { color: #7dd3fc; font-weight: 600; letter-spacing: 0.5px; }
-  .milhares { color: #86efac; font-weight: 600; font-size: 15px; letter-spacing: 1px; }
+  .dezenas {
+    color: #7dd3fc;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dezena {
+  display: inline-block;
+  width: 2ch;
+  text-align: right;
+  }
+
+  .milhares {
+    color: #86efac;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .milhar {
+  display: inline-block;
+  width: 4ch;          /* 4 caracteres (0000) */
+  text-align: right;   /* alinha bonitinho */
+  }
+
+  .milhar {
+    margin-right: 0.25ch;
+  }
+
+  .milhar:last-child {
+    margin-right: 0;
+  }
+
   .controls {
     text-align: center;
     margin-bottom: 28px;
