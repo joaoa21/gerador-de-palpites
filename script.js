@@ -159,6 +159,21 @@ function generate() {
   const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
   const fmt = d => d.toLocaleDateString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric'});
   document.getElementById('weekLabel').textContent = `Semana: ${fmt(mon)} a ${fmt(sun)}`;
+
+  document.getElementById('output').innerHTML = html;
+  document.getElementById('weekLabel').textContent = `Semana: ${fmt(mon)} a ${fmt(sun)}`;
+  
+  // Salvar no localStorage
+  localStorage.setItem('palpites_html', html);
+  localStorage.setItem('palpites_label', `Semana: ${fmt(mon)} a ${fmt(sun)}`);
 }
 
-generate();
+const savedHtml = localStorage.getItem('palpites_html');
+const savedLabel = localStorage.getItem('palpites_label');
+
+if (savedHtml && savedLabel) {
+  document.getElementById('output').innerHTML = savedHtml;
+  document.getElementById('weekLabel').textContent = savedLabel;
+} else {
+  generate(); // só gera se não houver nada salvo
+}
