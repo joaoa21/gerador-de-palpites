@@ -8,7 +8,7 @@
     background: #1a1a2e;
     color: #e0e0e0;
     font-family: 'Segoe UI', sans-serif;
-    padding: 20px;
+    padding: 80px 20px 20px;
     margin-top: 40px;
     max-width: 900px;
     margin: 0 auto;        
@@ -111,8 +111,8 @@
   
   button:hover { background: #4f46e5; }
 
-  h1 { text-align: center; font-size: 30px; color: #fff; margin-bottom: 10px; }
+  h1 { text-align: center; font-size: 40px; color: #fff; margin-bottom: 10px; }
 
-  .sub { text-align: center; color: #7070a0; font-size: 13px; margin-bottom: 24px; }
+  .sub { text-align: center; color: #7070a0; font-size: 15px; margin-bottom: 24px; }
 
   .week-label { text-align: center; color: #6366f1; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
