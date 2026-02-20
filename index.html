@@ -187,23 +187,35 @@ function generate() {
   // Track global milhar usage across all bancas/dias to avoid repetition
   const globalMilhares = new Set();
 
-  function uniqueMilhares(seed) {
+  function uniqueMilhares(seed, dezenas) {
+    // Each milhar ABCD must end with CD equal to one of the group's dezenas
     const r = rng(seed);
+    const sortedDez = [...dezenas].sort((a, b) => (a % 100) - (b % 100));
     const result = [];
-    let tries = 0;
-    while(result.length < 4 && tries < 500) {
-      tries++;
-      const n = Math.floor(r() * 10000);
-      const k = fmt4(n);
-      if(!globalMilhares.has(k)) {
-        globalMilhares.add(k);
-        result.push(k);
+    for (let i = 0; i < 4; i++) {
+      const cd = sortedDez[i] % 100;
+      let found = false;
+      let tries = 0;
+      while (tries < 300 && !found) {
+        tries++;
+        const ab = Math.floor(r() * 100);
+        const k = fmt4(ab * 100 + cd);
+        if (!globalMilhares.has(k)) {
+          globalMilhares.add(k);
+          result.push(k);
+          found = true;
+        }
       }
-    }
-    // fallback if exhausted (shouldn't happen for reasonable counts)
-    while(result.length < 4) {
-      const n = Math.floor(Math.random() * 10000);
-      result.push(fmt4(n));
+      if (!found) {
+        for (let ab = 0; ab < 100; ab++) {
+          const k = fmt4(ab * 100 + cd);
+          if (!globalMilhares.has(k)) {
+            globalMilhares.add(k);
+            result.push(k);
+            break;
+          }
+        }
+      }
     }
     return result;
   }
@@ -233,7 +245,7 @@ function generate() {
       dayGroups.forEach((g, gi) => {
         const dez = g.dezenas.map(d => fmt2(d)).join('•');
         const milSeed = (bancaSeed ^ (di * 31 + gi) * 0x6C62272E) >>> 0;
-        const mils = uniqueMilhares(milSeed);
+        const mils = uniqueMilhares(milSeed, g.dezenas);
         const milStr = mils.join(' • ');
         html += `<tr>
           <td class="grupo">${g.grupo}</td>
