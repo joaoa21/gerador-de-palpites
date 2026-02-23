@@ -122,12 +122,29 @@ function generate() {
     // Each banca gets a shuffled pool of all 25 groups, then picks 6 per day sequentially
     let pool = shuffle(ANIMAIS, bancaRand);
     // We need 7 days × 6 = 42 groups, but only 25 exist; re-shuffle and continue
-    let bigPool = [];
-    while(bigPool.length < 42) bigPool = bigPool.concat(shuffle(ANIMAIS, rng(bancaRand() * 0xFFFFFF | 0)));
-    bigPool = bigPool.slice(0, 42);
+
+    const FAIXAS = [
+      [1, 6],   // linha 1
+      [4, 11],  // linha 2
+      [8, 14],  // linha 3
+      [12, 19], // linha 4
+      [15, 23], // linha 5
+      [18, 25], // linha 6
+    ];
 
     DIAS.forEach((dia, di) => {
-      const dayGroups = bigPool.slice(di * 6, di * 6 + 6).sort((a, b) => parseInt(a.grupo.slice(1)) - parseInt(b.grupo.slice(1)));
+      const diaRand = rng((bancaSeed ^ (di * 0x1F2F3F4F)) >>> 0);
+
+      const dayGroups = FAIXAS.map((faixa, fi) => {
+        const [min, max] = faixa;
+        const pool = ANIMAIS.filter(a => {
+          const n = parseInt(a.grupo.slice(1));
+          return n >= min && n <= max;
+        });
+        const shuffled = shuffle(pool, rng((bancaSeed ^ (di * 31 + fi) * 0xABCDEF) >>> 0));
+        return shuffled[0];
+      });
+
       html += `<div class="dia-section">`;
       html += `<div class="dia-label">${dia}</div>`;
       html += `<table><thead><tr><th>Grupo</th><th>Animal</th><th>Dezenas</th><th>Milhares</th></tr></thead><tbody>`;
