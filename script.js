@@ -135,14 +135,18 @@ function generate() {
     DIAS.forEach((dia, di) => {
       const diaRand = rng((bancaSeed ^ (di * 0x1F2F3F4F)) >>> 0);
 
+      const usedGrupos = new Set();
+
       const dayGroups = FAIXAS.map((faixa, fi) => {
         const [min, max] = faixa;
         const pool = ANIMAIS.filter(a => {
           const n = parseInt(a.grupo.slice(1));
-          return n >= min && n <= max;
+          return n >= min && n <= max && !usedGrupos.has(a.grupo);
         });
         const shuffled = shuffle(pool, rng((bancaSeed ^ (di * 31 + fi) * 0xABCDEF) >>> 0));
-        return shuffled[0];
+        const chosen = shuffled[0];
+        usedGrupos.add(chosen.grupo);
+        return chosen;
       });
 
       html += `<div class="dia-section">`;
