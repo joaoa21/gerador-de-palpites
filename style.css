@@ -132,6 +132,22 @@
     margin-bottom: 28px;
   }
 
+  .mil-par {
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.mil-par:hover {
+  background: rgba(134, 239, 172, 0.15);
+}
+
+.mil-par.copiado {
+  background: rgba(134, 239, 172, 0.35);
+  color: #fff;
+}
+
   button {
     background: #6366f1;
     color: #fff;

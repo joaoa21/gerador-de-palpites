@@ -137,9 +137,12 @@ function generate() {
           .join(' • ');
         const milSeed = (bancaSeed ^ (di * 31 + gi) * 0x6C62272E) >>> 0;
         const mils = uniqueMilhares(milSeed, g.dezenas);
-        const milStr = mils
-          .map(m => `<span class="milhar">${m}</span>`)
-          .join(' • ');
+        const milStr = [
+          [mils[0], mils[1]],
+          [mils[2], mils[3]]
+        ].map(par => 
+          `<span class="mil-par" onclick="copyMil(this)" title="Clique para copiar">${par[0]} <span class="sep">•</span> ${par[1]}</span>`
+        ).join('<span class="sep"> • </span>');
 
         html += `<tr>
           <td class="grupo">${g.grupo}</td>
@@ -181,4 +184,11 @@ if (savedHtml && savedLabel) {
   document.getElementById('weekLabel').textContent = savedLabel;
 } else {
   generate(); // só gera se não houver nada salvo
+}
+
+function copyMil(el) {
+  const texto = el.innerText.replace(/•/g, '').trim().replace(/\s+/g, ' • ');
+  navigator.clipboard.writeText(texto);
+  el.classList.add('copiado');
+  setTimeout(() => el.classList.remove('copiado'), 1000);
 }
