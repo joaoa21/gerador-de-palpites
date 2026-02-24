@@ -147,7 +147,7 @@ function generate() {
         const chosen = shuffled[0];
         usedGrupos.add(chosen.grupo);
         return chosen;
-      });
+      }).sort((a, b) => parseInt(a.grupo.slice(1)) - parseInt(b.grupo.slice(1)));
 
       html += `<div class="dia-section">`;
       html += `<div class="dia-label">${dia}</div>`;
